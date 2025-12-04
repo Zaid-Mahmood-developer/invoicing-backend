@@ -1,38 +1,39 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import cors from 'cors'
-import cookieParser from 'cookie-parser';
-import connectDB from './config/db.js';
-import userRoutes from "./routes/user.Routes.js"
-
-const app = express();
-app.use(cookieParser())
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import connectDB from "./config/db.js";
+import userRoutes from "./routes/user.Routes.js";
 
 dotenv.config();
-const PORT = process.env.PORT || 5000;
 
+const app = express();
 
+// Middleware
+app.use(cookieParser());
 app.use(cors({
   origin: true,
   credentials: true
 }));
-
-
 app.use(express.json());
 
+// Root route (for testing)
+app.get("/", (req, res) => {
+  res.send("🚀 Backend server is running successfully!");
+});
 
+// API routes
 app.use("/api/users", userRoutes);
 
+// Database connection
 let isConnected = false;
-app.use((err, req, res, next) => {
-  if(!isConnected) {
-    connectDB(isConnected);
+const initDB = async () => {
+  if (!isConnected) {
+    await connectDB();
+    isConnected = true;
   }
-  next();
-})
+};
 
-// app.listen(PORT, () => {
-//   connectDB();
-//   console.log("Server is Connected successfully");
-// });
+initDB();
+
 export default app;
