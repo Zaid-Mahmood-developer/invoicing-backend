@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Mailtrap SMTP configuration
 export const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "sandbox.smtp.mailtrap.io",
+  port: 2525,
   auth: {
     user: process.env.MAILTRAP_USER,
     pass: process.env.MAILTRAP_PASS,
@@ -15,8 +15,8 @@ export const transporter = nodemailer.createTransport({
 // Verify connection
 transporter.verify((error, success) => {
   if (error) {
-    console.log("❌ Mailtrap connection failed:", error);
+    console.log("❌ Mailtrap SMTP failed:", error);
   } else {
-    console.log("✅ Mailtrap connected successfully!");
+    console.log("✅ Mailtrap SMTP connected successfully!");
   }
 });
