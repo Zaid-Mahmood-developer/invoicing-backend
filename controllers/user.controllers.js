@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken"
 import { sendPasswordResetEmail } from "../utils/nodemailer.js";
 import { getUserByConditions } from "../service/user.service.js";
 import { generateRefreshToken, generateToken } from "../utils/token.js";
+import { max } from "moment";
 
 export const Signup = async (req, res) => {
   try {
@@ -121,11 +122,15 @@ export const login = async (req, res) => {
     return res.status(200)
       .cookie("accessToken", token, {
         httpOnly: true,
-        secure: true
+        secure: true ,
+        sameSite : 'none',
+        maxAge: process.env.JWT_TOKEN_EXPIRE
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: true
+        secure: true ,
+        sameSite : 'none',
+        maxAge: process.env.JWT_REFRESH_EXPIRE
       })
       .json({
         message: "Login successful",
@@ -146,7 +151,6 @@ export const login = async (req, res) => {
     });
   }
 };
-
 
 
 export const refreshTokenController = async (req, res) => {
@@ -180,11 +184,6 @@ export const refreshTokenController = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
-
-
-
 
 export const forgotpassword = async (req, res) => {
   const { email } = req.body;
