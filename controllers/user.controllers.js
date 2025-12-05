@@ -291,8 +291,8 @@ export const logout = async (req, res) => {
 
 
     return res.status(200)
-      .clearCookie("accessToken", { httpOnly: true, secure: true })
-      .clearCookie("refreshToken", { httpOnly: true, secure: true })
+      .clearCookie("accessToken", { httpOnly: true, secure: true , sameSite : 'none'})
+      .clearCookie("refreshToken", { httpOnly: true, secure: true , sameSite : 'none'})
       .json({
         status: true,
         message: "Logout successful",
