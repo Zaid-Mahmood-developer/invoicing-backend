@@ -4,7 +4,7 @@ export const sendPasswordResetEmail = async (toEmail, resetURL) => {
   const resetLink = `${process.env.CLIENT_URL}/reset-password/${resetURL}`;
   const htmlContent = RESET_PASSWORD_TEMPLATE.replace("{{resetURL}}", resetLink);
   const mailOptions = {
-    from: '"DevOx Syndicate" <no-reply@devox.com>',
+    from: '"DevOx Syndicate" <noreply@mailtrap.io>',
     to: toEmail,
     subject: "Reset Your Password",
     html: htmlContent,
