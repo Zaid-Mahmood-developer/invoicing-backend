@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 // for production
 app.use(cors({
-  origin: true,
+  origin: process.env.VERCEL_URL,
   credentials: true
 }))
 
