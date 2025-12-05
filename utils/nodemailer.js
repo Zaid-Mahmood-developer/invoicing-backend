@@ -1,7 +1,7 @@
 import { transporter } from "./email.js";
 import {RESET_PASSWORD_TEMPLATE} from "./templates/email.js"
 export const sendPasswordResetEmail = async (toEmail, resetURL) => {
-  const resetLink = `${process.env.VERCEL_URL}/reset-password/${resetURL}`;
+  const resetLink = `${process.env.CLIENT_URL}/reset-password/${resetURL}`;
   const htmlContent = RESET_PASSWORD_TEMPLATE.replace("{{resetURL}}", resetLink);
   const mailOptions = {
     from: '"DevOx Syndicate" <no-reply@devox.com>',
