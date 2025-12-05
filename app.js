@@ -11,10 +11,19 @@ const app = express();
 
 // Middleware
 app.use(cookieParser());
+
+// for development purposes only
+// app.use(cors({
+//   origin: true,
+//   credentials: true
+// }));
+
+// for production
 app.use(cors({
-  origin: true,
+  origin: process.env.CLIENT_URL,
   credentials: true
-}));
+}))
+
 app.use(express.json());
 
 // Root route (for testing)
