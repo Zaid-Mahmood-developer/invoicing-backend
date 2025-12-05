@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 import { sendPasswordResetEmail } from "../utils/nodemailer.js";
 import { getUserByConditions } from "../service/user.service.js";
 import { generateRefreshToken, generateToken } from "../utils/token.js";
-import { max } from "moment";
+import moment from "moment";
 
 export const Signup = async (req, res) => {
   try {
