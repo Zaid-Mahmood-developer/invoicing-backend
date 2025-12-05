@@ -124,13 +124,13 @@ export const login = async (req, res) => {
         httpOnly: true,
         secure: true ,
         sameSite : 'none',
-        maxAge: process.env.JWT_TOKEN_EXPIRE
+        maxAge: 7200000
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true ,
         sameSite : 'none',
-        maxAge: process.env.JWT_REFRESH_EXPIRE
+        maxAge: 7200000
       })
       .json({
         message: "Login successful",
