@@ -2,6 +2,9 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
 dotenv.config();
+// ===== DEBUG: Check if env variables are loaded =====
+console.log("MAILTRAP_USER =", process.env.MAILTRAP_USER);
+console.log("MAILTRAP_PASS =", process.env.MAILTRAP_PASS ? "Loaded" : "Missing");
 
 export const transporter = nodemailer.createTransport({
   host: "sandbox.smtp.mailtrap.io",
