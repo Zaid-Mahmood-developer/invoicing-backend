@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import UserModel from "../models/user.model.js";
+import {User} from "../models/user.model.js";
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ export const isAuthorized = async (req, res, next) => {
     }
 
     // Fetch user from DB
-    const user = await UserModel.findById(decoded.id).select("-password"); // exclude password
+    const user = await User.findById(decoded.id).select("-password"); // exclude password
     if (!user) {
       return res.status(404).json({
         status: false,

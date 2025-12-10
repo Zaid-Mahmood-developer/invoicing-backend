@@ -1,5 +1,5 @@
-import userModel from "../models/user.model.js";
+import {User} from "../models/user.model.js";
 
 export const getUserByConditions = async (condition, removeFields = "") => {
-  return await userModel.findOne({ ...condition }).select(removeFields);
+  return await User.findOne({ ...condition }).select(removeFields);
 };

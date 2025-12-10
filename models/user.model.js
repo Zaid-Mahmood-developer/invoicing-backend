@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const userSchema = new mongoose.Schema(
   {
     NTNCNIC: {
@@ -47,9 +46,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    resetPasswordToken: String,
-resetPasswordTokenExpireAt: {type: Date,
-    index: { expires: 3600 }},
+   
 refreshToken: { type: String },
 role: {
     type: String,
@@ -61,4 +58,25 @@ role: {
   { timestamps: true }
 );
 
-export default mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
+
+const resetPasswordTokenSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    resetPasswordToken: {
+      type: String,   
+      required: true,
+    },
+    resetPasswordExpires: {  
+      type: Date,
+      index: { expires: 0 }
+    }
+  },
+  { timestamps: true }
+);
+
+export const ResetPassword = mongoose.model("ResetPassword", resetPasswordTokenSchema);
