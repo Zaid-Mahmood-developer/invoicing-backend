@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 
 const itemSchema = new mongoose.Schema({
@@ -6,8 +5,9 @@ const itemSchema = new mongoose.Schema({
   productDescription: { type: String },
   uoM: { type: String },
   quantity: { type: Number },
-  price: { type: Number,  },
-
+  price: { type: Number },
+  poNumber: { type: String },
+  quantityInNumber: { type: String },
   furtherTax: { type: Number, default: 0 },
   valueSalesExcludingST: { type: Number },
   salesTaxWithheldAtSource: { type: Number },
@@ -38,22 +38,27 @@ const salesInvoiceSchema = new mongoose.Schema(
     buyerBusinessName: { type: String, required: true },
     buyerProvince: { type: String, required: true },
     buyerAddress: { type: String, required: true },
-    buyerRegistrationType: { type: String, enum: ["Registered", "Unregistered"], required: true },
+    buyerRegistrationType: {
+      type: String,
+      enum: ["Registered", "Unregistered"],
+      required: true,
+    },
 
     scenarioId: { type: String, default: "" },
     invoiceRefNo: { type: String, default: "" },
     FBRToken: { type: String, required: true },
-
+    dcNo: { type: String },
+    invoiceNo: { type: String },
     items: [itemSchema],
 
     fbrResponse: { type: String },
-    fbrResponseDate: { type: Date }, 
+    fbrResponseDate: { type: Date },
 
     grandTotal: { type: Number },
 
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("SalesInvoice", salesInvoiceSchema);
