@@ -5,13 +5,13 @@ export const addProduct = async (req, res) => {
   try {
     const { hsCode, description, uom, taxType, qtyInHand } = req.body;
     const userId = req.user._id;
-    const existingProduct = await productModel.findOne({ hsCode , userId });
-    if (existingProduct) {
-      return res.status(400).json({
-        success: false,
-        message: "HS Code already exists",
-      });
-    }
+    // const existingProduct = await productModel.findOne({ hsCode , userId });
+    // if (existingProduct) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "HS Code already exists",
+    //   });
+    // }
 
     const product = await productModel.create({
       hsCode,

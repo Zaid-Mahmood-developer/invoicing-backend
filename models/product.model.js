@@ -100,7 +100,7 @@ const productSchema = new mongoose.Schema(
     hsCode: {
       type: String,
       // unique: true,
-      required: [true, "HS Code is required"],
+      // required: [true, "HS Code is required"],
     },
     description: {
       type: String,
