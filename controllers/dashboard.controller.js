@@ -149,7 +149,7 @@ export const getDashboardStats = async (req, res) => {
 
     const recentInvoices = await SalesInvoice.find({ userId })
       .sort({ createdAt: -1 })
-      .limit(10);
+      // .limit(10);
 
     const customers = await Customer.countDocuments({ userId });
 
@@ -173,13 +173,24 @@ export const getDashboardStats = async (req, res) => {
     });
 
 
-    const startOfMonth = moment().startOf("month").toDate();
-    const endOfMonth = moment().endOf("month").toDate();
+ const now = moment().utcOffset("+05:00");
 
-    const monthlyInvoices = await SalesInvoice.find({
-      userId,
-      createdAt: { $gte: startOfMonth, $lte: endOfMonth }
-    });
+const startOfMonth = now.clone().startOf("month").format("YYYY-MM-DD");
+const startOfNextMonth = now
+  .clone()
+  .startOf("month")
+  .add(1, "month")
+  .format("YYYY-MM-DD");
+
+const monthlyInvoices = await SalesInvoice.find({
+  userId,
+  invoiceDate: {
+    $gte: startOfMonth,
+    $lt: startOfNextMonth,
+  },
+});
+
+  
 
     let monthlySalesAmount = 0;
     let monthlyTax = 0;
