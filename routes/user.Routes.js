@@ -1,6 +1,7 @@
 import express from 'express'
 import { changepassword, forgotpassword, login, logout, refreshTokenController, resetpassword, Signup } from '../controllers/user.controllers.js';
-import { isAuthorized } from '../middleware/auth.middleware.js';
+import { listUsers, setUserBlocked, updateUser, listUserInvoices, updateUserInvoice } from "../controllers/admin.controller.js";
+import { isAuthorized, isAdmin } from '../middleware/auth.middleware.js';
 import { addProduct, deleteProduct, getAllProducts, getProduct, updateProduct } from '../controllers/product.controller.js';
 import { createInvoice ,getAllInvoices,getInvoiceById, getSellerDetails, getTodaySales,  } from '../controllers/saleinvoice.controller.js';
 import { addCustomer, deleteCustomer, getAllCustomers, getCustomerById, updateCustomer } from '../controllers/customer.controllers.js';
@@ -17,6 +18,13 @@ router.post("/change-password", isAuthorized,changepassword)
 router.post("/logout", isAuthorized, logout);
 router.get("/refresh", refreshTokenController)
 
+
+router.get("/admin/users/:id/invoices", isAuthorized, isAdmin, listUserInvoices);
+router.put("/admin/users/:id/invoices/:invoiceId", isAuthorized, isAdmin, updateUserInvoice);
+router.get("/admin/users", isAuthorized, isAdmin, listUsers);
+router.put("/admin/users/:id", isAuthorized, isAdmin, updateUser);
+router.post("/admin/users/:id", isAuthorized, isAdmin, updateUser);
+router.patch("/admin/users/:id/block", isAuthorized, isAdmin, setUserBlocked);
 
 //Product
 router.post("/products", isAuthorized, addProduct); 

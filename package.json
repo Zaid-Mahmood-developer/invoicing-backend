@@ -7,7 +7,9 @@
     "start": "node app",
     "dev": "nodemon app.js",
     "vercel-start": "node app.js",
-    "build": "echo 'No build step needed for Node.js backend'"
+    "build": "echo 'No build step needed for Node.js backend'",
+    "make-admin": "node scripts/make-admin.js",
+    "test": "node --test"
   },
   "author": "",
   "type": "module",

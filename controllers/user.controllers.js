@@ -6,6 +6,7 @@ import { sendPasswordResetEmail } from "../utils/nodemailer.js";
 import { getUserByConditions } from "../service/user.service.js";
 import { generateRefreshToken, generateToken } from "../utils/token.js";
 import { isEmailBlocked, sendPaymentOverdue } from "../utils/paymentBlock.js";
+import { sendAccountBlocked } from "../utils/accountBlock.js";
 export const Signup = async (req, res) => {
   try {
     const {
@@ -104,6 +105,7 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
+    if (user.isBlocked) return sendAccountBlocked(res);
     if (isEmailBlocked(user.email)) {
       return sendPaymentOverdue(res);
     }
@@ -167,6 +169,7 @@ export const refreshTokenController = async (req, res) => {
 
     jwt.verify(refreshToken, process.env.JWT_SECRET_USER, (err, decoded) => {
       if (err) return res.status(403).json({ message: "Invalid token" });
+      if (user.isBlocked) return sendAccountBlocked(res);
       if (isEmailBlocked(user.email)) {
         return sendPaymentOverdue(res);
       }
@@ -177,12 +180,15 @@ export const refreshTokenController = async (req, res) => {
       );
 
       // Send access token AND user info
-      return res.status(200).json({
+      return res.status(200).cookie("accessToken", accessToken, {
+        httpOnly: true, secure: true, sameSite: "none", maxAge: 7200000,
+      }).json({
         accessToken,
         user: {
           id: user._id,
           email: user.email,
           username: user.username,
+          role: user.role,
         },
       });
     });

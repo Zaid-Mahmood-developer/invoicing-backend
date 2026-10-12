@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import {User} from "../models/user.model.js";
 import { isEmailBlocked , sendPaymentOverdue } from "../utils/paymentBlock.js";
+import { sendAccountBlocked } from "../utils/accountBlock.js";
 dotenv.config();
 
 export const isAuthorized = async (req, res, next) => {
@@ -31,6 +32,7 @@ export const isAuthorized = async (req, res, next) => {
         message: "User not found",
       });
     }
+if (user.isBlocked) return sendAccountBlocked(res);
 if (isEmailBlocked(user.email)) {
   return sendPaymentOverdue(res);
 }
@@ -44,4 +46,11 @@ if (isEmailBlocked(user.email)) {
       error: error.message,
     });
   }
+};
+
+export const isAdmin = (req, res, next) => {
+  if (req.user?.role !== "admin") {
+    return res.status(403).json({ message: "Administrator access required" });
+  }
+  next();
 };

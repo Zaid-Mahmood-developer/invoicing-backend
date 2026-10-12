@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema(
     Province: {
       type: String,
       required: true,
-    
     },
 
     Address: {
@@ -48,6 +47,7 @@ const userSchema = new mongoose.Schema(
     },
    
 refreshToken: { type: String },
+isBlocked: { type: Boolean, default: false },
 role: {
     type: String,
     enum: ["user", "admin"],
